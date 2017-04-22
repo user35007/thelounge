@@ -16,6 +16,8 @@ const slideoutMenu = require("./libs/slideout");
 const templates = require("../views");
 const socket = require("./socket");
 
+window.$ = $;
+
 $(function() {
 	var commands = [
 		"/away",
@@ -357,7 +359,10 @@ $(function() {
 		);
 
 		var channels = $.map(data.networks, function(n) {
-			return n.channels;
+			const chans = n.channels;
+			n.channels = null;
+			sidebar.find("#network-" + n.id).data("settings", n);
+			return chans;
 		});
 		chat.append(
 			templates.chat({
@@ -478,8 +483,9 @@ $(function() {
 			.end();
 	});
 
-	socket.on("network_changed", function(data) {
-		sidebar.find("#network-" + data.network).data("options", data.serverOptions);
+	socket.on("network:changed", function(data) {
+		data.data.channels = null;
+		sidebar.find("#network-" + data.network).data("settings", data.data);
 	});
 
 	socket.on("nick", function(data) {
@@ -732,15 +738,26 @@ $(function() {
 				data: target.data("name")
 			});
 		} else if (target.hasClass("chan")) {
+			const isLobby = target.hasClass("lobby");
+
 			output = templates.contextmenu_item({
 				class: "chan",
 				text: target.data("title"),
 				data: target.data("target")
 			});
 			output += templates.contextmenu_divider();
+
+			if (isLobby) {
+				output += templates.contextmenu_item({
+					class: "edit",
+					text: "Edit",
+					data: target.data("target")
+				});
+			}
+
 			output += templates.contextmenu_item({
 				class: "close",
-				text: target.hasClass("lobby") ? "Disconnect" : target.hasClass("channel") ? "Leave" : "Close",
+				text: isLobby ? "Disconnect" : target.hasClass("channel") ? "Leave" : "Close",
 				data: target.data("target")
 			});
 		}
@@ -1082,6 +1099,9 @@ $(function() {
 
 	contextMenu.on("click", ".context-menu-item", function() {
 		switch ($(this).data("action")) {
+		case "edit":
+			renderEditNetwork($(".networks .chan[data-target='" + $(this).data("data") + "']").parent().data("settings"));
+			break;
 		case "close":
 			$(".networks .chan[data-target='" + $(this).data("data") + "'] .close").click();
 			break;
@@ -1093,6 +1113,26 @@ $(function() {
 			break;
 		}
 	});
+
+	function renderEditNetwork(settings) {
+		const connect = $("#connect");
+
+		for (const key in settings) {
+			const value = settings[key];
+			const element = connect.find("input[name='" + key + "']");
+
+			if (element.is(":checkbox")) {
+				element.prop("checked", value);
+			} else {
+				element.val(value);
+			}
+		}
+
+		connect
+			.find(".title").text("Edit Network").end()
+			.find(".btn").text("Save").end()
+			.show();
+	}
 
 	chat.on("input", ".search", function() {
 		var value = $(this).val().toLowerCase();
@@ -1219,6 +1259,14 @@ $(function() {
 			}
 		});
 	});
+
+	windows.on("show", "#connect", function() {
+		// TODO: Reset all values to default
+		$(this)
+			.find(".title").text("Connect").end()
+			.find(".btn").text("Connect");
+	});
+
 	if ($("body").hasClass("public")) {
 		$("#connect").one("show", function() {
 			var params = URI(document.location.search);

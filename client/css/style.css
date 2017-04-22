@@ -286,6 +286,7 @@ kbd {
 	margin-right: 9px;
 }
 
+.context-menu-edit:before,
 #set-nick:before {
 	content: "\f040"; /* http://fontawesome.io/icon/pencil/ */
 }

@@ -62,7 +62,6 @@ Network.prototype.toJSON = function() {
 		"chanCache",
 		"highlightRegex",
 		"irc",
-		"password",
 	]);
 };
 

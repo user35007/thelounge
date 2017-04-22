@@ -130,12 +130,11 @@ module.exports = function(irc, network) {
 			network.prefixLookup[mode.mode] = mode.symbol;
 		});
 
-		network.serverOptions.PREFIX = data.options.PREFIX;
 		network.serverOptions.NETWORK = data.options.NETWORK;
 
-		client.emit("network_changed", {
+		client.emit("network:changed", {
 			network: network.id,
-			serverOptions: network.serverOptions
+			data: network.toJSON()
 		});
 	});
 };
