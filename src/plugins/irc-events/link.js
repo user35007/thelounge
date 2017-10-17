@@ -25,7 +25,7 @@ module.exports = function(client, chan, msg) {
 	}
 
 	msg.previews = Array.from(new Set( // Remove duplicate links
-		links.map((link) => escapeHeader(link.link))
+		links.map((link) => link.link)
 	)).map((link) => ({
 		type: "loading",
 		head: "",
@@ -76,7 +76,7 @@ function parse(msg, preview, res, client) {
 
 		// Verify that thumbnail pic exists and is under allowed size
 		if (preview.thumb.length) {
-			fetch(escapeHeader(preview.thumb), (resThumb) => {
+			fetch(preview.thumb, (resThumb) => {
 				if (resThumb === null
 				|| !(/^image\/.+/.test(resThumb.type))
 				|| resThumb.size > (Helper.config.prefetchMaxImageSize * 1024)) {
@@ -203,14 +203,4 @@ function fetch(uri, cb) {
 				size: size
 			});
 		});
-}
-
-// https://github.com/request/request/issues/2120
-// https://github.com/nodejs/node/issues/1693
-// https://github.com/alexeyten/descript/commit/50ee540b30188324198176e445330294922665fc
-function escapeHeader(header) {
-	return header
-		.replace(/([\uD800-\uDBFF][\uDC00-\uDFFF])+/g, encodeURI)
-		.replace(/[\uD800-\uDFFF]/g, "")
-		.replace(/[\u0000-\u001F\u007F-\uFFFF]+/g, encodeURI);
 }

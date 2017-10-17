@@ -264,4 +264,41 @@ describe("Link plugin", function() {
 			}
 		});
 	});
+
+	it("should work on non-ASCII urls", function(done) {
+		const message = this.irc.createMessage({
+			text:
+			"http://localhost:9002/unicode/ıoı-test " +
+			"http://localhost:9002/unicode/русский-текст-test " +
+			"http://localhost:9002/unicodeq/?q=ıoı-test " +
+			"http://localhost:9002/unicodeq/?q=русский-текст-test"
+		});
+
+		link(this.irc, this.network.channels[0], message);
+
+		this.app.get("/unicode/:q", function(req, res) {
+			res.send(`<title>${req.params.q}</title>`);
+		});
+
+		this.app.get("/unicodeq/", function(req, res) {
+			res.send(`<title>${req.query.q}</title>`);
+		});
+
+		let previews = 0;
+
+		this.irc.on("msg:preview", function(data) {console.log(data);
+			if (data.preview.link.indexOf("ıoı-test") > 0) {
+				expect(data.preview.head).to.equal("ıoı-test");
+				previews++;
+			} else if (data.preview.link.indexOf("русский-текст-test") > 0) {
+				expect(data.preview.head).to.equal("русский-текст-test");
+				previews++;
+			}
+
+			if (previews === 4) {
+				expect(message.previews).to.eql(previews);
+				done();
+			}
+		});
+	});
 });
