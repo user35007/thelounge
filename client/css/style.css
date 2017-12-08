@@ -1,10 +1,11 @@
 @font-face {
+	/* We use free solid icons - https://fontawesome.com/icons?s=solid&m=free */
 	font-family: "FontAwesome";
 	font-weight: normal;
 	font-style: normal;
 	src:
-		url("../fonts/fontawesome-webfont.woff2?v=4.7.0") format("woff2"),
-		url("../fonts/fontawesome-webfont.woff?v=4.7.0") format("woff");
+		url("../fonts/fa-solid-900.woff2") format("woff2"),
+		url("../fonts/fa-solid-900.woff") format("woff");
 }
 
 html,
@@ -254,7 +255,7 @@ kbd {
 }
 
 #viewport .lt::before { content: "\f0c9"; /* http://fontawesome.io/icon/bars/ */ }
-#viewport .rt::before { content: "\f0c0"; /* http://fontawesome.io/icon/users/ */ }
+#viewport .rt::before { content: "\f2b9"; /* https://fontawesome.com/icons/address-book?style=solid */ }
 #chat button.menu::before { content: "\f142"; /* http://fontawesome.io/icon/ellipsis-v/ */ }
 
 .context-menu-join::before { content: "\f067"; /* http://fontawesome.io/icon/plus/ */ }
@@ -271,7 +272,7 @@ kbd {
 .context-menu-query::before,
 .context-menu-action-query::before,
 #sidebar .chan.query::before,
-#chat .query .title::before { content: "\f0e5"; /* http://fontawesome.io/icon/comment-o/ */ }
+#chat .query .title::before { content: "\f075"; /* https://fontawesome.com/icons/comment?style=solid */ }
 
 .context-menu-chan::before,
 #sidebar .chan.channel::before,
@@ -402,7 +403,7 @@ kbd {
 }
 
 #set-nick::before {
-	content: "\f040"; /* http://fontawesome.io/icon/pencil/ */
+	content: "\f303"; /* https://fontawesome.com/icons/pencil-alt?style=solid */
 }
 
 #submit-nick::before {
