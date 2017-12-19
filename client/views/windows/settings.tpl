@@ -5,6 +5,15 @@
 	<h1 class="title">Settings</h1>
 
 	<div class="row">
+		<div class="col-sm-6">
+			<label class="opt">
+				<input type="checkbox" name="advanced">
+				Show advanced settings
+			</label>
+		</div>
+	</div>
+
+	<div class="row">
 		<div class="col-sm-12">
 			<h2>Messages</h2>
 		</div>
@@ -55,7 +64,7 @@
 				Enable autocomplete
 			</label>
 		</div>
-		<div class="col-sm-12">
+		<div class="col-sm-12" data-advanced>
 			<label class="opt">
 				<label for="nickPostfix" class="sr-only">Nick autocomplete postfix (e.g. <code>, </code>)</label>
 				<input type="text" id="nickPostfix" name="nickPostfix" class="input" placeholder="Nick autocomplete postfix (e.g. ', ')">
@@ -137,14 +146,14 @@
 			</div>
 		</div>
 
-		<div class="col-sm-12">
+		<div class="col-sm-12" data-advanced>
 			<label class="opt">
 				<input type="checkbox" name="notifyAllMessages">
 				Enable notification for all messages
 			</label>
 		</div>
 
-		<div class="col-sm-12">
+		<div class="col-sm-12" data-advanced>
 			<label class="opt">
 				<label for="highlights" class="sr-only">Custom highlights (comma-separated keywords)</label>
 				<input type="text" id="highlights" name="highlights" class="input" placeholder="Custom highlights (comma-separated keywords)">
@@ -178,10 +187,10 @@
 		</div>
 			{{/unless}}
 		{{/unless}}
-		<div class="col-sm-12">
+		<div class="col-sm-12" data-advanced>
 			<h2>Custom Stylesheet</h2>
 		</div>
-		<div class="col-sm-12">
+		<div class="col-sm-12" data-advanced>
 			<label for="user-specified-css-input" class="sr-only">Custom stylesheet. You can override any style with CSS here.</label>
 			<textarea class="input" name="userStyles" id="user-specified-css-input" placeholder="/* You can override any style with CSS here */"></textarea>
 		</div>

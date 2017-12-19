@@ -11,6 +11,7 @@ const chat = $("#chat");
 
 // Default options
 const options = {
+	advanced: false,
 	autocomplete: true,
 	nickPostfix: "",
 	coloredNicks: true,
@@ -172,6 +173,8 @@ module.exports.initialize = () => {
 			if ($(this).prop("checked") && Notification.permission !== "granted") {
 				Notification.requestPermission(updateDesktopNotificationStatus);
 			}
+		} else if (name === "advanced") {
+			$(".container").find("[data-advanced]").toggle(options[name]);
 		}
 	}).find("input")
 		.trigger("change");
