@@ -8,6 +8,9 @@ const webpush = require("../webpush");
 const sidebar = $("#sidebar");
 const storage = require("../localStorage");
 const utils = require("../utils");
+const slideoutMenu = require("../libs/slideout");
+var viewport = $("#viewport");
+var sidebarSlide = slideoutMenu(viewport[0], sidebar[0], "networklist-expanded");
 
 socket.on("init", function(data) {
 	$("#loading-page-message, #connection-error").text("Rendering…");
@@ -42,7 +45,6 @@ socket.on("init", function(data) {
 		webpush.configurePushNotifications(data.pushSubscription, data.applicationServerKey);
 
 		$("body").removeClass("signed-out");
-		$("#loading").remove();
 		$("#sign-in").remove();
 
 		if (window.g_LoungeErrorHandler) {
@@ -52,6 +54,13 @@ socket.on("init", function(data) {
 	}
 
 	openCorrectChannel(previousActive, data.active);
+
+	// Toggle networklist if its "openness" isn't what it should be (what is stored in localstorage)
+	const networklistShouldBeExpanded = storage.get("networklist-expanded") === "true"; // stored string -> boolean
+	if (networklistShouldBeExpanded !== sidebarSlide.isOpen()) {
+		sidebarSlide.toggle(!sidebarSlide.isOpen());
+	}
+	$("#loading").remove();
 });
 
 function openCorrectChannel(clientActive, serverActive) {

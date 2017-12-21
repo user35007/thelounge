@@ -41,12 +41,6 @@ $(function() {
 		}
 	});
 
-	// Toggle networklist if its "openness" isn't what it should be (what is stored in localstorage)
-	const networklistShouldBeExpanded = storage.get("networklist-expanded") === "true"; // stored string -> boolean
-	if (networklistShouldBeExpanded !== sidebarSlide.isOpen()) {
-		sidebarSlide.toggle(!sidebarSlide.isOpen());
-	}
-
 	viewport.on("click", ".rt", function(e) {
 		var self = $(this);
 
