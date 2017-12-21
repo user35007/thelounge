@@ -21,6 +21,7 @@ module.exports = {
 	toggleNotificationMarkers,
 	requestIdleCallback,
 	isOpInChannel,
+	isUserlistVisible,
 };
 
 function findCurrentNetworkChan(name) {
@@ -130,4 +131,8 @@ function requestIdleCallback(callback, timeout) {
 	} else {
 		callback();
 	}
+}
+
+function isUserlistVisible() {
+	return $(".chan.active .sidebar").first().css("right") === "0px";
 }
