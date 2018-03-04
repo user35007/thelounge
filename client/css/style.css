@@ -551,6 +551,7 @@ kbd {
 
 #sidebar .network,
 #sidebar .network-placeholder {
+	position: relative;
 	margin-bottom: 30px;
 	touch-action: pan-y;
 }
@@ -563,7 +564,7 @@ kbd {
 
 #sidebar .chan,
 #sidebar .chan-placeholder {
-	display: block;
+	display: flex;
 	padding: 8px 16px 8px 32px;
 	transition: color 0.2s;
 	width: 100%;
@@ -604,18 +605,12 @@ kbd {
 }
 
 #sidebar .chan::before {
-	float: left;
 	line-height: 18px;
-}
-
-#chat .title::before {
-	margin-top: 17px;
 }
 
 #sidebar .chan .name {
 	position: relative;
-	z-index: 0;
-	display: block;
+	flex-grow: 1;
 	overflow: hidden;
 	white-space: nowrap;
 	margin-right: 5px;
@@ -632,11 +627,10 @@ kbd {
 }
 
 #sidebar .badge,
-#sidebar .add-channel,
-#sidebar .close {
-	float: right;
-	margin-left: 5px;
-	margin-right: -5px;
+#sidebar .add-channel-tooltip,
+#sidebar .close-tooltip {
+	flex-shrink: 0;
+	line-height: 1;
 }
 
 #sidebar .badge {
@@ -644,8 +638,7 @@ kbd {
 	border-radius: 3px;
 	color: #afb6c0;
 	font-size: 10px;
-	margin-top: 1px;
-	padding: 3px 6px;
+	padding: 4px 6px;
 	transition: background-color 0.2s, color 0.2s;
 }
 
@@ -658,11 +651,6 @@ kbd {
 	color: #49505a;
 }
 
-#sidebar .close-tooltip {
-	float: right;
-}
-
-#sidebar .leave,
 #sidebar .close {
 	width: 18px;
 	height: 18px;
@@ -670,7 +658,6 @@ kbd {
 	transition: opacity 0.2s, background-color 0.2s;
 }
 
-#sidebar .leave::before,
 #sidebar .close::before {
 	font-size: 20px;
 	font-weight: normal;
@@ -712,7 +699,7 @@ kbd {
 	border-radius: 3px;
 	width: 32px;
 	height: 34px;
-	float: left;
+	position: absolute;
 	opacity: 0.4;
 	transition: opacity 0.2s, background-color 0.2s, transform 0.2s;
 }
@@ -740,14 +727,8 @@ button.collapse-network:first-child:nth-last-child(3) {
 	display: unset;
 }
 
-#sidebar .chan.active .leave:hover,
 #sidebar .chan.active .close:hover {
 	opacity: 1;
-}
-
-#sidebar .tse-scrollbar {
-	top: 2px;
-	right: 3px;
 }
 
 #footer {
@@ -1056,6 +1037,7 @@ button.collapse-network:first-child:nth-last-child(3) {
   */
 #sidebar .join-form {
 	display: none;
+	padding: 0 16px 0 32px;
 }
 
 #sidebar .join-form .input {
@@ -1064,17 +1046,12 @@ button.collapse-network:first-child:nth-last-child(3) {
 	margin-right: auto;
 	margin-top: 5px;
 	margin-bottom: 5px;
-	width: 80%;
 }
 
 #sidebar .join-form .btn {
 	display: block;
-	width: 80%;
+	width: 100%;
 	margin: auto;
-}
-
-#sidebar .add-channel-tooltip {
-	float: right;
 }
 
 #chat .show-more {
