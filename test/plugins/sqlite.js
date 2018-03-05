@@ -12,7 +12,7 @@ describe("SQLite Message Storage", function() {
 	let store;
 
 	// Delete database file from previous test run
-	before((done) => {
+	before(function(done) {
 		store = new MessageStorage();
 
 		if (fs.existsSync(expectedPath)) {
@@ -22,14 +22,14 @@ describe("SQLite Message Storage", function() {
 		}
 	});
 
-	it("should resolve an empty array when disabled", (done) => {
+	it("should resolve an empty array when disabled", function(done) {
 		store.getMessages(null, null).then((messages) => {
 			expect(messages).to.be.empty;
 			done();
 		});
 	});
 
-	it("should create database file", () => {
+	it("should create database file", function() {
 		expect(store.isEnabled).to.be.false;
 		expect(fs.existsSync(expectedPath)).to.be.false;
 
@@ -39,7 +39,7 @@ describe("SQLite Message Storage", function() {
 		expect(fs.existsSync(expectedPath)).to.be.true;
 	});
 
-	it("should create tables", (done) => {
+	it("should create tables", function(done) {
 		store.database.serialize(() =>
 			store.database.all("SELECT name, tbl_name, sql FROM sqlite_master WHERE type = 'table'", (err, row) => {
 				expect(err).to.be.null;
@@ -59,21 +59,21 @@ describe("SQLite Message Storage", function() {
 		);
 	});
 
-	it("should insert schema version to options table", (done) => {
+	it("should insert schema version to options table", function(done) {
 		store.database.serialize(() =>
 			store.database.get("SELECT value FROM options WHERE name = 'schema_version'", (err, row) => {
 				expect(err).to.be.null;
 
 				// Should be sqlite.currentSchemaVersion,
 				// compared as string because it's returned as such from the database
-				expect(row.value).to.equal("1");
+				expect(row.value).to.equal("1520239200");
 
 				done();
 			})
 		);
 	});
 
-	it("should store a message", (done) => {
+	it("should store a message", function(done) {
 		store.index("this-is-a-network-guid", "#ThisIsAChannel", new Msg({
 			time: 123456789,
 			text: "Hello from sqlite world!",
@@ -82,7 +82,7 @@ describe("SQLite Message Storage", function() {
 		store.database.serialize(done);
 	});
 
-	it("should retrieve previously stored message", (done) => {
+	it("should retrieve previously stored message", function(done) {
 		store.getMessages({
 			uuid: "this-is-a-network-guid",
 		}, {
