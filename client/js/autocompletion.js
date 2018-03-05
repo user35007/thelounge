@@ -13,7 +13,7 @@ let textcomplete;
 
 module.exports = {
 	enable: enableAutocomplete,
-	disable: () => {
+	disable() {
 		input.off("input.tabcomplete");
 		Mousetrap(input.get(0)).off("tab", "keydown");
 

@@ -23,7 +23,7 @@ module.exports = function(irc, network) {
 		const lobby = network.channels[0];
 		const msg = new Msg({
 			type: Msg.Type.ERROR,
-			text: text,
+			text,
 			showInActive: true,
 		});
 		lobby.pushMessage(client, msg, true);

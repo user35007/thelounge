@@ -242,6 +242,7 @@ $(function() {
 	$("#form").on("submit", function(e) {
 		e.preventDefault();
 		utils.forceFocus();
+		const target = chat.data("id");
 		const text = input.val();
 
 		if (text.length === 0) {
@@ -260,10 +261,7 @@ $(function() {
 			}
 		}
 
-		socket.emit("input", {
-			target: chat.data("id"),
-			text: text,
-		});
+		socket.emit("input", {target, text});
 	});
 
 	$("button#set-nick").on("click", function() {
@@ -519,29 +517,29 @@ $(function() {
 	});
 
 	const contextMenuActions = {
-		join: function(itemData) {
+		join(itemData) {
 			const network = $(`#join-channel-${itemData}`).closest(".network");
 			JoinChannel.openForm(network);
 		},
-		close: function(itemData) {
+		close(itemData) {
 			closeChan($(`.networks .chan[data-target="${itemData}"]`));
 		},
-		focusChan: function(itemData) {
+		focusChan(itemData) {
 			$(`.networks .chan[data-target="${itemData}"]`).trigger("click");
 		},
-		list: function(itemData) {
+		list(itemData) {
 			socket.emit("input", {
 				target: itemData,
 				text: "/list",
 			});
 		},
-		banlist: function(itemData) {
+		banlist(itemData) {
 			socket.emit("input", {
 				target: itemData,
 				text: "/banlist",
 			});
 		},
-		whois: function(itemData) {
+		whois(itemData) {
 			const chan = utils.findCurrentNetworkChan(itemData);
 
 			if (chan.length) {
@@ -555,7 +553,7 @@ $(function() {
 
 			$(`.channel.active .users .user[data-name="${itemData}"]`).trigger("click");
 		},
-		query: function(itemData) {
+		query(itemData) {
 			const chan = utils.findCurrentNetworkChan(itemData);
 
 			if (chan.length) {
@@ -567,7 +565,7 @@ $(function() {
 				text: "/query " + itemData,
 			});
 		},
-		kick: function(itemData) {
+		kick(itemData) {
 			socket.emit("input", {
 				target: $("#chat").data("id"),
 				text: "/kick " + itemData,

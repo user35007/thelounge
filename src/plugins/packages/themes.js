@@ -61,8 +61,8 @@ function makePackageThemeObject(moduleName, module) {
 	const displayName = module.name || moduleName;
 	const filename = path.join(modulePath, module.css);
 	return {
-		displayName: displayName,
-		filename: filename,
+		displayName,
+		filename,
 		name: moduleName,
 	};
 }

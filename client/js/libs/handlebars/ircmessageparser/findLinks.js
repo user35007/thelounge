@@ -23,12 +23,12 @@ function findLinks(text) {
 	// See https://medialize.github.io/URI.js/docs.html#static-withinString
 	// In our case, we store each URI encountered in a result array.
 	try {
-		URI.withinString(text, function(url, start, end) {
+		URI.withinString(text, function(link, start, end) {
 			let parsedScheme;
 
 			try {
 				// Extract the scheme of the URL detected, if there is one
-				parsedScheme = URI(url).scheme().toLowerCase();
+				parsedScheme = URI(link).scheme().toLowerCase();
 			} catch (e) {
 				// URI may throw an exception for malformed urls,
 				// as to why withinString finds these in the first place is a mystery
@@ -44,19 +44,15 @@ function findLinks(text) {
 			if (matchedScheme) {
 				const prefix = parsedScheme.length - matchedScheme.length;
 				start += prefix;
-				url = url.slice(prefix);
+				link = link.slice(prefix);
 			}
 
 			// The URL matched but does not start with a scheme (`www.foo.com`), add it
 			if (!parsedScheme.length) {
-				url = "http://" + url;
+				link = "http://" + link;
 			}
 
-			result.push({
-				start: start,
-				end: end,
-				link: url,
-			});
+			result.push({start, end, link});
 		});
 	} catch (e) {
 		// withinString is wrapped in a try/catch due to https://github.com/medialize/URI.js/issues/359

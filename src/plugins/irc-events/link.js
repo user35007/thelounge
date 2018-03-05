@@ -33,7 +33,7 @@ module.exports = function(client, chan, msg) {
 		head: "",
 		body: "",
 		thumb: "",
-		link: link,
+		link,
 		shown: true,
 	})).slice(0, 5); // Only preview the first 5 URLs in message to avoid abuse
 
@@ -192,10 +192,8 @@ function emitPreview(client, msg, preview) {
 		}
 	}
 
-	client.emit("msg:preview", {
-		id: msg.id,
-		preview: preview,
-	});
+	const id = msg.id;
+	client.emit("msg:preview", {id, preview});
 }
 
 function getRequestHeaders(language) {
@@ -271,11 +269,8 @@ function fetch(uri, {language}, cb) {
 				type = req.response.headers["content-type"].split(/ *; */).shift();
 			}
 
-			cb({
-				data: Buffer.concat(buffers, length),
-				type: type,
-				size: size,
-			});
+			const data = Buffer.concat(buffers, length);
+			cb({data, type, size});
 		});
 }
 

@@ -3,14 +3,13 @@
 const $ = require("jquery");
 const io = require("socket.io-client");
 const utils = require("./utils");
-const path = window.location.pathname + "socket.io/";
 
-const socket = io({
-	transports: $(document.body).data("transports"),
-	path: path,
-	autoConnect: false,
-	reconnection: !$(document.body).hasClass("public"),
-});
+const transports = $(document.body).data("transports");
+const path = window.location.pathname + "socket.io/";
+const autoConnect = false;
+const reconnection = !$(document.body).hasClass("public");
+
+const socket = io({transports, path, autoConnect, reconnection});
 
 socket.on("disconnect", handleDisconnect);
 socket.on("connect_error", handleDisconnect);

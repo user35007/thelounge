@@ -96,7 +96,7 @@ module.exports = function slideoutMenu(viewport, menu) {
 	return {
 		disable: disableSlideout,
 		toggle: toggleMenu,
-		isOpen: function() {
+		isOpen() {
 			return menuIsOpen;
 		},
 	};

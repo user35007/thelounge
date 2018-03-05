@@ -21,7 +21,7 @@ exports.input = function(network, chan, cmd, args) {
 		network.irc.emit("notice", {
 			nick: network.irc.user.nick,
 			target: targetChan.name,
-			message: message,
+			message,
 		});
 	}
 

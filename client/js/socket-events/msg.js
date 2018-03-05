@@ -166,9 +166,9 @@ function notifyMessage(targetId, channel, msg) {
 							registration.active.postMessage({
 								type: "notification",
 								chanId: targetId,
-								timestamp: timestamp,
-								title: title,
-								body: body,
+								timestamp,
+								title,
+								body,
 							});
 						});
 					} else {
@@ -176,8 +176,8 @@ function notifyMessage(targetId, channel, msg) {
 							tag: `chan-${targetId}`,
 							badge: "img/logo-64.png",
 							icon: "img/touch-icon-192x192.png",
-							body: body,
-							timestamp: timestamp,
+							body,
+							timestamp,
 						});
 						notify.addEventListener("click", function() {
 							window.focus();

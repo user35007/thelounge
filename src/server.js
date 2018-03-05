@@ -151,7 +151,7 @@ module.exports = function() {
 				performAuthentication.call(socket, {});
 			} else {
 				socket.emit("auth", {
-					serverHash: serverHash,
+					serverHash,
 					success: true,
 				});
 				socket.on("auth", performAuthentication);

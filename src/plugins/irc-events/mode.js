@@ -72,7 +72,7 @@ module.exports = function(irc, network) {
 				time: data.time,
 				type: Msg.Type.MODE,
 				from: targetChan.getUser(data.nick),
-				text: text,
+				text,
 				self: data.nick === irc.user.nick,
 			});
 			targetChan.pushMessage(client, msg);
