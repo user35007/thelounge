@@ -19,6 +19,7 @@ const Helper = {
 	config: null,
 	expandHome,
 	getHomePath,
+	getIndexToInsertInto,
 	getPackagesPath,
 	getPackageModulePath,
 	getStoragePath,
@@ -173,4 +174,14 @@ function passwordHash(password) {
 
 function passwordCompare(password, expected) {
 	return bcrypt.compare(password, expected);
+}
+
+function getIndexToInsertInto(name, chans) {
+	for (let i = 0; i < chans.length; i++) {
+		if (name < chans[i].name) {
+			return i;
+		}
+	}
+
+	return chans.length - 1;
 }

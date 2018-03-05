@@ -3,22 +3,28 @@
 const Chan = require("../../models/chan");
 const Msg = require("../../models/msg");
 const User = require("../../models/user");
+const helper = require("../../helper");
 
 module.exports = function(irc, network) {
 	const client = this;
 
 	irc.on("join", function(data) {
 		let chan = network.getChannel(data.channel);
+		const chans = network.channels;
 
 		if (typeof chan === "undefined") {
 			chan = new Chan({
 				name: data.channel,
 				state: Chan.State.JOINED,
 			});
+			const index = helper.getIndexToInsertInto(data.channel, chans);
+			chans.splice(index, 0, chan);
+
 			network.channels.push(chan);
 			client.save();
 			client.emit("join", {
 				network: network.id,
+				index: index,
 				chan: chan.getFilteredClone(true),
 			});
 

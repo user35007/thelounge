@@ -2,6 +2,7 @@
 
 const Chan = require("../../models/chan");
 const Msg = require("../../models/msg");
+const helper = require("../../helper");
 const LinkPrefetch = require("./link");
 const cleanIrcMessage = require("../../../client/js/libs/handlebars/ircmessageparser/cleanIrcMessage");
 const nickRegExp = /(?:\x03[0-9]{1,2}(?:,[0-9]{1,2})?)?([\w[\]\\`^{|}-]+)/g;
@@ -67,10 +68,14 @@ module.exports = function(irc, network) {
 						type: Chan.Type.QUERY,
 						name: target,
 					});
-					network.channels.push(chan);
+
+					const index = helper.getIndexToInsertInto(target, network.channels);
+					network.channels.splice(index, 0, chan);
+
 					client.emit("join", {
 						network: network.id,
 						chan: chan.getFilteredClone(true),
+						index: index,
 					});
 				}
 			}

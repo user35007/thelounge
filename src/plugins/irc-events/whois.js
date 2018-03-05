@@ -2,6 +2,7 @@
 
 const Chan = require("../../models/chan");
 const Msg = require("../../models/msg");
+const helper = require("../../helper");
 
 module.exports = function(irc, network) {
 	const client = this;
@@ -13,11 +14,15 @@ module.exports = function(irc, network) {
 				type: Chan.Type.QUERY,
 				name: data.nick,
 			});
-			network.channels.push(chan);
+
+			const index = helper.getIndexToInsertInto(data.nick, network.channels);
+			network.channels.splice(index, 0, chan);
+
 			client.emit("join", {
 				shouldOpen: true,
 				network: network.id,
 				chan: chan.getFilteredClone(true),
+				index: index,
 			});
 		}
 

@@ -3,6 +3,7 @@
 const _ = require("lodash");
 const Chan = require("../../models/chan");
 const Msg = require("../../models/msg");
+const helper = require("../../helper");
 
 exports.commands = ["query"];
 
@@ -47,10 +48,14 @@ exports.input = function(network, chan, cmd, args) {
 		type: Chan.Type.QUERY,
 		name: target,
 	});
-	network.channels.push(newChan);
+
+	const index = helper.getIndexToInsertInto(target, network.channels);
+	network.channels.splice(index, 0, chan);
+
 	this.emit("join", {
 		network: network.id,
 		chan: newChan.getFilteredClone(true),
+		index: index,
 		shouldOpen: true,
 	});
 	this.save();
